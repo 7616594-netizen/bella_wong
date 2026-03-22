@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>排球專業教學指南</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1a3a5c;
+  --accent: #e8532e;
+  --accent-gold: #d4a843;
+  --bg: #f5f0e8;
+  --bg-card: #ffffff;
+  --text: #2a2a2a;
+  --text-light: #6b6b6b;
+  --court-green: #3a7d44;
+  --court-line: #ffffff;
+  --ball-yellow: #f0c040;
+  --shadow: 0 4px 24px rgba(0,0,0,0.08);
+  --shadow-lg: 0 12px 48px rgba(0,0,0,0.12);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Noto Sans TC', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+/* Hero */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1a3a5c 0%, #0d1f33 60%, #0a1520 100%);
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 600px 400px at 20% 80%, rgba(232,83,46,0.15), transparent),
+    radial-gradient(ellipse 500px 500px at 80% 20%, rgba(212,168,67,0.1), transparent);
+}
+
+.hero-court {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 900px;
+  opacity: 0.08;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 2rem;
+  animation: fadeUp 1s ease-out;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero h1 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.5rem;
+}
+
+.hero h1 span { color: var(--accent); }
+
+.hero-sub {
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  color: rgba(255,255,255,0.6);
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  margin-bottom: 2rem;
+}
+
+.hero-badge {
+  display: inline-block;
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 0.5rem 1.5rem;
+  border-radius: 50px;
+  color: var(--accent-gold);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+}
+
+.ball-float {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fff7d4, var(--ball-yellow), #c89520);
+  box-shadow: 0 0 30px rgba(240,192,64,0.3);
+  animation: floatBall 6s ease-in-out infinite;
+  z-index: 1;
+}
+
+.ball-float:nth-child(1) { top: 15%; right: 12%; animation-delay: 0s; }
+.ball-float:nth-child(2) { top: 60%; left: 8%; width: 40px; height: 40px; animation-delay: -2s; }
+.ball-float:nth-child(3) { bottom: 20%; right: 20%; width: 30px; height: 30px; animation-delay: -4s; }
+
+@keyframes floatBall {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-25px) rotate(180deg); }
+}
+
+/* Scroll indicator */
+.scroll-hint {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255,255,255,0.4);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.scroll-hint::after {
+  content: '▼';
+  display: block;
+  text-align: center;
+  margin-top: 0.3rem;
+  font-size: 0.6rem;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+/* Nav */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(26,58,92,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.nav-inner {
+  display: flex;
+  gap: 0;
+  max-width: 1200px;
+  margin: 0 auto;
+  white-space: nowrap;
+}
+
+.nav-btn {
+  padding: 1rem 1.2rem;
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.6);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  letter-spacing: 0.05em;
+  transition: all 0.3s;
+  border-bottom: 2px solid transparent;
+  flex-shrink: 0;
+}
+
+.nav-btn:hover, .nav-btn.active {
+  color: #fff;
+  border-bottom-color: var(--accent);
+}
+
+/* Content */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.section {
+  display: none;
+  padding: 3rem 0;
+  animation: sectionIn 0.5s ease-out;
+}
+
+.section.active { display: block; }
+
+@keyframes sectionIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.section-header h2 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 900;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.section-header .divider {
+  width: 60px;
+  height: 3px;
+  background: var(--accent);
+  margin: 1rem auto;
+  border-radius: 2px;
+}
+
+.section-header p {
+  color: var(--text-light);
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 0.95rem;
+}
+
+/* Cards */
+.card {
+  background: var(--bg-card);
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.card h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 1.4rem;
+  color: var(--primary);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.card h3 .icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.card h3 .icon.orange { background: rgba(232,83,46,0.1); color: var(--accent); }
+.card h3 .icon.blue { background: rgba(26,58,92,0.1); color: var(--primary); }
+.card h3 .icon.green { background: rgba(58,125,68,0.1); color: var(--court-green); }
+.card h3 .icon.gold { background: rgba(212,168,67,0.15); color: #b8922e; }
+
+.card p, .card li {
+  color: var(--text);
+  font-size: 0.95rem;
+  line-height: 1.9;
+}
+
+.card ul, .card ol {
+  padding-left: 1.2rem;
+  margin: 0.5rem 0;
+}
+
+.card li { margin-bottom: 0.4rem; }
+
+.key-point {
+  background: linear-gradient(135deg, rgba(232,83,46,0.06), rgba(212,168,67,0.06));
+  border-left: 3px solid var(--accent);
+  padding: 1rem 1.2rem;
+  border-radius: 0 10px 10px 0;
+  margin: 1rem 0;
+  font-size: 0.9rem;
+}
+
+.key-point strong { color: var(--accent); }
+
+/* SVG Diagrams */
+.diagram-wrap {
+  background: #fafafa;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  text-align: center;
+  overflow-x: auto;
+}
+
+.diagram-wrap svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.diagram-caption {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  margin-top: 0.75rem;
+  font-style: italic;
+}
+
+/* Technique Grid */
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+/* Step Cards */
+.step {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  align-items: flex-start;
+}
+
+.step-num {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  margin-top: 0.2rem;
+}
+
+.step-content h4 {
+  font-size: 1.05rem;
+  color: var(--primary);
+  margin-bottom: 0.3rem;
+}
+
+.step-content p {
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+/* Curriculum */
+.curriculum-phase {
+  position: relative;
+  padding-left: 2.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.curriculum-phase::before {
+  content: '';
+  position: absolute;
+  left: 14px;
+  top: 40px;
+  bottom: -20px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--accent), rgba(232,83,46,0.1));
+}
+
+.curriculum-phase:last-child::before { display: none; }
+
+.phase-marker {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.phase-header {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 1.3rem;
+  color: var(--primary);
+  margin-bottom: 0.3rem;
+}
+
+.phase-duration {
+  font-size: 0.8rem;
+  color: var(--accent);
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+}
+
+.phase-content {
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+}
+
+/* Table */
+.info-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 1rem 0;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+}
+
+.info-table th {
+  background: var(--primary);
+  color: #fff;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 500;
+  font-size: 0.85rem;
+}
+
+.info-table td {
+  padding: 0.7rem 1rem;
+  font-size: 0.88rem;
+  border-bottom: 1px solid #eee;
+}
+
+.info-table tr:nth-child(even) td { background: #fafafa; }
+.info-table tr:last-child td { border-bottom: none; }
+
+/* Tabs */
+.tab-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  padding: 0.5rem 1.2rem;
+  border: 1px solid #ddd;
+  border-radius: 50px;
+  background: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: var(--text-light);
+  transition: all 0.3s;
+}
+
+.tab-btn:hover { border-color: var(--accent); color: var(--accent); }
+.tab-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  background: var(--primary);
+  color: rgba(255,255,255,0.5);
+  font-size: 0.8rem;
+  margin-top: 3rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card { padding: 1.5rem; }
+  .tech-grid { grid-template-columns: 1fr; }
+  .nav-btn { padding: 0.8rem 1rem; font-size: 0.8rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="ball-float"></div>
+  <div class="ball-float"></div>
+  <div class="ball-float"></div>
+  <svg class="hero-court" viewBox="0 0 900 300" fill="none">
+    <rect x="50" y="20" width="800" height="260" stroke="white" stroke-width="2" fill="none"/>
+    <line x1="450" y1="20" x2="450" y2="280" stroke="white" stroke-width="2"/>
+    <line x1="170" y1="20" x2="170" y2="280" stroke="white" stroke-width="1" stroke-dasharray="8,4"/>
+    <line x1="730" y1="20" x2="730" y2="280" stroke="white" stroke-width="1" stroke-dasharray="8,4"/>
+  </svg>
+  <div class="hero-content">
+    <div class="hero-badge">🏐 專業教練系統教學</div>
+    <h1 style="margin-top:1rem;">排球<span>完全</span>指南</h1>
+    <p class="hero-sub">從零基礎到實戰應用的循序漸進教學體系</p>
+  </div>
+  <div class="scroll-hint">向下滾動開始學習</div>
+</section>
+
+<!-- Navigation -->
+<nav class="nav" id="mainNav">
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="showSection('overview')">📋 總覽</button>
+    <button class="nav-btn" onclick="showSection('basics')">🏐 基礎姿勢</button>
+    <button class="nav-btn" onclick="showSection('underhand')">🤲 低手傳接球</button>
+    <button class="nav-btn" onclick="showSection('overhand')">🙌 高手傳球</button>
+    <button class="nav-btn" onclick="showSection('serve')">💪 發球</button>
+    <button class="nav-btn" onclick="showSection('spike')">⚡ 扣球攻擊</button>
+    <button class="nav-btn" onclick="showSection('block')">🛡️ 攔網</button>
+    <button class="nav-btn" onclick="showSection('defense')">🧎 防守接球</button>
+    <button class="nav-btn" onclick="showSection('tactics')">🧠 戰術</button>
+    <button class="nav-btn" onclick="showSection('curriculum')">📚 教學課程</button>
+    <button class="nav-btn" onclick="showSection('training')">💪 體能訓練</button>
+  </div>
+</nav>
+
+<!-- Sections -->
+<main class="container">
+
+<!-- ===================== 總覽 ===================== -->
+<div class="section active" id="sec-overview">
+  <div class="section-header">
+    <h2>排球運動總覽</h2>
+    <div class="divider"></div>
+    <p>認識排球場地、基本規則，建立正確的學習框架</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon blue">📐</span>場地與規格</h3>
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 700 420" xmlns="http://www.w3.org/2000/svg">
+        <!-- Court -->
+        <rect x="50" y="30" width="600" height="360" fill="#2d6b3a" rx="4"/>
+        <!-- Center line -->
+        <line x1="350" y1="30" x2="350" y2="390" stroke="#fff" stroke-width="3"/>
+        <!-- Net -->
+        <rect x="345" y="20" width="10" height="380" fill="rgba(255,255,255,0.15)"/>
+        <text x="350" y="15" text-anchor="middle" fill="#e8532e" font-size="11" font-weight="700">球網 (男2.43m / 女2.24m)</text>
+        <!-- Attack lines -->
+        <line x1="200" y1="30" x2="200" y2="390" stroke="#fff" stroke-width="2" stroke-dasharray="8,5"/>
+        <line x1="500" y1="30" x2="500" y2="390" stroke="#fff" stroke-width="2" stroke-dasharray="8,5"/>
+        <!-- Boundary -->
+        <rect x="50" y="30" width="600" height="360" fill="none" stroke="#fff" stroke-width="3"/>
+        <!-- Dimensions -->
+        <text x="350" y="410" text-anchor="middle" fill="#fff" font-size="12" font-weight="500">18m</text>
+        <line x1="60" y1="400" x2="640" y2="400" stroke="#fff" stroke-width="1" marker-start="url(#arrowL)" marker-end="url(#arrowR)"/>
+        <text x="30" y="210" text-anchor="middle" fill="#fff" font-size="12" font-weight="500" transform="rotate(-90,30,210)">9m</text>
+        <!-- Zone labels left -->
+        <text x="125" y="100" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="22" font-weight="700">5</text>
+        <text x="125" y="220" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="22" font-weight="700">6</text>
+        <text x="125" y="340" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="22" font-weight="700">1</text>
+        <text x="275" y="100" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="22" font-weight="700">4</text>
+        <text x="275" y="220" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="22" font-weight="700">3</text>
+        <text x="275" y="340" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="22" font-weight="700">2</text>
+        <!-- Zone labels right -->
+        <text x="425" y="100" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="22" font-weight="700">2</text>
+        <text x="425" y="220" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="22" font-weight="700">3</text>
+        <text x="425" y="340" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="22" font-weight="700">4</text>
+        <text x="575" y="100" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="22" font-weight="700">1</text>
+        <text x="575" y="220" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="22" font-weight="700">6</text>
+        <text x="575" y="340" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="22" font-weight="700">5</text>
+        <!-- Labels -->
+        <text x="200" y="55" text-anchor="middle" fill="#f0c040" font-size="10" font-weight="500">攻擊線(3m)</text>
+        <text x="500" y="55" text-anchor="middle" fill="#f0c040" font-size="10" font-weight="500">攻擊線(3m)</text>
+        <text x="125" y="380" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-size="9">後排區域</text>
+        <text x="275" y="380" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-size="9">前排區域</text>
+      </svg>
+      <div class="diagram-caption">排球場地示意圖 — 數字代表位置號碼（輪轉順序），虛線為攻擊線（3m線）</div>
+    </div>
+
+    <div class="key-point">
+      <strong>💡 教練提醒：</strong>排球場地為 18m × 9m，球網將場地一分為二。每隊 6 人，按順時針方向輪轉。攻擊線距球網 3 公尺，後排球員在攻擊線後方才能跳起攻擊。
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon orange">📌</span>核心技術一覽</h3>
+    <table class="info-table">
+      <thead>
+        <tr><th>技術類別</th><th>內容</th><th>重要程度</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>低手傳接球（墊球）</td><td>雙手前臂併攏接球，是防守和一傳的基礎</td><td>⭐⭐⭐⭐⭐</td></tr>
+        <tr><td>高手傳球（托球）</td><td>雙手手指在額前上方觸球，用於二傳組織進攻</td><td>⭐⭐⭐⭐⭐</td></tr>
+        <tr><td>低手發球</td><td>初學者入門發球方式，穩定性高</td><td>⭐⭐⭐⭐</td></tr>
+        <tr><td>高手發球（飄球）</td><td>站立式上手發球，球路不規則</td><td>⭐⭐⭐⭐</td></tr>
+        <tr><td>跳躍發球</td><td>助跑跳起後發球，威力最大</td><td>⭐⭐⭐</td></tr>
+        <tr><td>扣球攻擊</td><td>助跑跳起揮臂擊球，進攻得分主要手段</td><td>⭐⭐⭐⭐⭐</td></tr>
+        <tr><td>攔網</td><td>在球網前跳起雙手阻擋對方攻擊</td><td>⭐⭐⭐⭐</td></tr>
+        <tr><td>防守滾翻</td><td>倒地救球後迅速起身的技術</td><td>⭐⭐⭐⭐</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon green">⚙️</span>基本規則速覽</h3>
+    <ul>
+      <li><strong>得分制：</strong>每球得分制（Rally Point），先得 25 分且領先 2 分者贏得一局（決勝局 15 分）</li>
+      <li><strong>局數：</strong>五局三勝制</li>
+      <li><strong>觸球次數：</strong>每方最多三次觸球（攔網觸球不計），須將球送過網至對方場區</li>
+      <li><strong>輪轉：</strong>接發球方得分後，球員需順時針輪轉一個位置</li>
+      <li><strong>自由球員（Libero）：</strong>穿著不同顏色球衣，僅能在後排活動，專司防守和接球，不可攻擊、發球或攔網</li>
+      <li><strong>網下越線：</strong>腳完全踩過中線即為犯規，部分踩線尚可</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===================== 基礎姿勢 ===================== -->
+<div class="section" id="sec-basics">
+  <div class="section-header">
+    <h2>基礎準備姿勢</h2>
+    <div class="divider"></div>
+    <p>正確的準備姿勢是一切技術的根基</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon blue">🧍</span>標準準備姿勢</h3>
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg">
+        <!-- Figure -->
+        <circle cx="250" cy="70" r="25" fill="none" stroke="#1a3a5c" stroke-width="2.5"/>
+        <!-- Body -->
+        <line x1="250" y1="95" x2="250" y2="200" stroke="#1a3a5c" stroke-width="2.5"/>
+        <!-- Arms ready -->
+        <line x1="250" y1="140" x2="200" y2="190" stroke="#1a3a5c" stroke-width="2.5"/>
+        <line x1="250" y1="140" x2="300" y2="190" stroke="#1a3a5c" stroke-width="2.5"/>
+        <!-- Legs bent -->
+        <line x1="250" y1="200" x2="210" y2="280" stroke="#1a3a5c" stroke-width="2.5"/>
+        <line x1="210" y1="280" x2="200" y2="330" stroke="#1a3a5c" stroke-width="2.5"/>
+        <line x1="250" y1="200" x2="290" y2="280" stroke="#1a3a5c" stroke-width="2.5"/>
+        <line x1="290" y1="280" x2="300" y2="330" stroke="#1a3a5c" stroke-width="2.5"/>
+        <!-- Feet -->
+        <line x1="185" y1="330" x2="215" y2="330" stroke="#1a3a5c" stroke-width="3"/>
+        <line x1="285" y1="330" x2="315" y2="330" stroke="#1a3a5c" stroke-width="3"/>
+        <!-- Annotations -->
+        <line x1="290" y1="65" x2="370" y2="50" stroke="#e8532e" stroke-width="1"/>
+        <text x="375" y="54" fill="#e8532e" font-size="11" font-weight="500">眼睛注視球</text>
+        <line x1="258" y1="135" x2="370" y2="110" stroke="#e8532e" stroke-width="1"/>
+        <text x="375" y="114" fill="#e8532e" font-size="11" font-weight="500">肩膀放鬆</text>
+        <line x1="305" y1="190" x2="370" y2="170" stroke="#e8532e" stroke-width="1"/>
+        <text x="375" y="174" fill="#e8532e" font-size="11" font-weight="500">雙手體前預備</text>
+        <line x1="295" y1="280" x2="370" y2="250" stroke="#e8532e" stroke-width="1"/>
+        <text x="375" y="254" fill="#e8532e" font-size="11" font-weight="500">膝蓋微彎 (約120°-140°)</text>
+        <line x1="305" y1="330" x2="370" y2="310" stroke="#e8532e" stroke-width="1"/>
+        <text x="375" y="314" fill="#e8532e" font-size="11" font-weight="500">雙腳與肩同寬</text>
+        <!-- Left annotations -->
+        <line x1="210" y1="200" x2="120" y2="210" stroke="#3a7d44" stroke-width="1"/>
+        <text x="25" y="214" fill="#3a7d44" font-size="11" font-weight="500">重心略前傾</text>
+        <line x1="200" y1="330" x2="120" y2="350" stroke="#3a7d44" stroke-width="1"/>
+        <text x="25" y="354" fill="#3a7d44" font-size="11" font-weight="500">重心落在前腳掌</text>
+      </svg>
+      <div class="diagram-caption">標準防守準備姿勢 — 膝蓋微彎、重心前傾、雙手體前預備</div>
+    </div>
+
+    <div class="key-point">
+      <strong>💡 核心要點：</strong>「低」「寬」「前」三字訣 — 重心放低、雙腳打開與肩同寬、身體重心略前傾落在前腳掌，隨時準備向任何方向移動。
+    </div>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>雙腳站位</h4>
+        <p>雙腳略比肩寬，一前一後（慣用腳稍後），腳尖微微朝內呈內八字，以利快速啟動。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>膝蓋與髖部</h4>
+        <p>膝蓋彎曲約 120°-140°，臀部後坐但上身前傾，形成「坐椅子」的姿態。避免只彎腰不屈膝。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>上身與手臂</h4>
+        <p>上身前傾約 30°，雙手自然放在體前膝蓋高度附近，手掌朝上或輕握，肩膀放鬆不聳肩。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h4>眼睛與專注</h4>
+        <p>目光注視前方球的動態，同時用餘光觀察場上隊友與對手站位。頭部保持穩定。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon green">🦶</span>移動步法</h3>
+    <div class="tech-grid">
+      <div style="background:#f8f6f2;border-radius:12px;padding:1.5rem;">
+        <h4 style="color:var(--primary);margin-bottom:0.5rem;">滑步（Shuffle）</h4>
+        <p style="font-size:0.9rem;">短距離左右移動的首選。保持低姿態，雙腳不交叉，像溜冰般橫向滑移。用於接發球和防守微調。</p>
+      </div>
+      <div style="background:#f8f6f2;border-radius:12px;padding:1.5rem;">
+        <h4 style="color:var(--primary);margin-bottom:0.5rem;">交叉步（Crossover）</h4>
+        <p style="font-size:0.9rem;">中長距離移動使用。後腳交叉到前方帶動身體快速橫移，速度比滑步快，適合攔網移位。</p>
+      </div>
+      <div style="background:#f8f6f2;border-radius:12px;padding:1.5rem;">
+        <h4 style="color:var(--primary);margin-bottom:0.5rem;">衝刺步（Sprint）</h4>
+        <p style="font-size:0.9rem;">長距離救球時使用。全力衝向落球點，最後一步轉為低姿態以利接球或撲救。</p>
+      </div>
+      <div style="background:#f8f6f2;border-radius:12px;padding:1.5rem;">
+        <h4 style="color:var(--primary);margin-bottom:0.5rem;">墊步（Split Step）</h4>
+        <p style="font-size:0.9rem;">對方觸球瞬間輕跳落地，利用落地反彈力量快速啟動。是專業球員的關鍵預判動作。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== 低手傳接球 ===================== -->
+<div class="section" id="sec-underhand">
+  <div class="section-header">
+    <h2>低手傳接球（墊球）</h2>
+    <div class="divider"></div>
+    <p>排球最基本、最常用的技術，一傳與防守的核心</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon orange">🤲</span>手型與觸球部位</h3>
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+        <!-- Left arm outline -->
+        <path d="M120,250 Q140,200 160,170 Q175,145 190,130 L240,100" stroke="#1a3a5c" stroke-width="3" fill="none"/>
+        <!-- Right arm outline -->
+        <path d="M380,250 Q360,200 340,170 Q325,145 310,130 L260,100" stroke="#1a3a5c" stroke-width="3" fill="none"/>
+        <!-- Forearm platform -->
+        <ellipse cx="250" cy="140" rx="70" ry="15" fill="rgba(232,83,46,0.15)" stroke="#e8532e" stroke-width="2"/>
+        <!-- Hands overlapping -->
+        <rect x="225" y="225" width="50" height="40" rx="8" fill="rgba(26,58,92,0.1)" stroke="#1a3a5c" stroke-width="2"/>
+        <text x="250" y="250" text-anchor="middle" fill="#1a3a5c" font-size="10" font-weight="500">雙手互握</text>
+        <!-- Ball -->
+        <circle cx="250" cy="90" r="30" fill="rgba(240,192,64,0.2)" stroke="#d4a843" stroke-width="2"/>
+        <text x="250" y="95" text-anchor="middle" fill="#b8922e" font-size="11" font-weight="600">球</text>
+        <!-- Annotations -->
+        <line x1="325" y1="138" x2="400" y2="120" stroke="#e8532e" stroke-width="1"/>
+        <text x="405" y="115" fill="#e8532e" font-size="11" font-weight="600">觸球面：前臂內側</text>
+        <text x="405" y="132" fill="#e8532e" font-size="10">（手腕上方10cm）</text>
+        <line x1="280" y1="240" x2="400" y2="200" stroke="#3a7d44" stroke-width="1"/>
+        <text x="405" y="196" fill="#3a7d44" font-size="11" font-weight="600">一手包握另一手</text>
+        <text x="405" y="212" fill="#3a7d44" font-size="10">拇指平行併攏</text>
+        <!-- Arrow showing ball direction -->
+        <path d="M250,60 L250,30" stroke="#d4a843" stroke-width="2" marker-end="url(#arrowGold)"/>
+        <defs>
+          <marker id="arrowGold" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+            <path d="M0,0 L8,3 L0,6" fill="#d4a843"/>
+          </marker>
+        </defs>
+      </svg>
+      <div class="diagram-caption">低手傳接球手型示意 — 雙手互握，以前臂平面觸球</div>
+    </div>
+
+    <h4 style="margin:1rem 0 0.5rem;color:var(--primary);">手型組合方式（二選一）：</h4>
+    <ul>
+      <li><strong>疊握法：</strong>一手四指併攏平放，另一手疊上，雙拇指平行朝前。最常用的方式。</li>
+      <li><strong>互扣法：</strong>雙手手指交叉互扣，拇指併攏朝前。穩定性較高，適合初學者。</li>
+    </ul>
+
+    <div class="key-point">
+      <strong>💡 教練提醒：</strong>觸球部位是手腕關節上方約 10 公分的前臂內側平坦面（橈骨與尺骨之間），不是用手掌或手腕去打球！兩臂務必伸直夾緊，形成穩定的平面。
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon blue">📋</span>動作要領與常見錯誤</h3>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>判斷與移動</h4>
+        <p>快速判斷球的落點，用步法移動到球的正面。身體正對出球方向，而非對著來球。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>插入與迎球</h4>
+        <p>雙手在球的下方提前「插入」，手臂伸直併攏，含胸收腹，手臂與地面成約 45° 角（可依目標調整）。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>蹬腿送球</h4>
+        <p>觸球瞬間，利用雙腿蹬伸的力量帶動手臂「送」球出去，而不是用手臂「甩」球。手臂揮動幅度應控制在 45° 以內。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h4>控制方向</h4>
+        <p>透過調整身體面向（面對目標）和手臂平面的角度來控制出球方向。肩膀朝向即為出球方向。</p>
+      </div>
+    </div>
+
+    <h4 style="margin:1.5rem 0 0.5rem;color:var(--accent);">❌ 常見錯誤：</h4>
+    <ul>
+      <li>只用手臂甩球，沒有腿部蹬伸配合 → 球忽高忽低不穩定</li>
+      <li>手臂彎曲未伸直 → 觸球面不平整，球亂飛</li>
+      <li>雙手沒有夾緊 → 球打到接縫處偏離方向</li>
+      <li>身體沒有正對目標 → 球送不到想要的位置</li>
+      <li>重心太高，沒有屈膝 → 無法應對低球</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===================== 高手傳球 ===================== -->
+<div class="section" id="sec-overhand">
+  <div class="section-header">
+    <h2>高手傳球（托球）</h2>
+    <div class="divider"></div>
+    <p>二傳組織攻擊的核心技術，精準度要求最高</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon gold">🙌</span>手型與觸球位置</h3>
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 500 320" xmlns="http://www.w3.org/2000/svg">
+        <!-- Head -->
+        <circle cx="250" cy="200" r="30" fill="none" stroke="#1a3a5c" stroke-width="2"/>
+        <circle cx="240" cy="195" r="2" fill="#1a3a5c"/>
+        <circle cx="260" cy="195" r="2" fill="#1a3a5c"/>
+        <!-- Hands forming triangle above head -->
+        <path d="M210,130 Q215,115 225,105 L250,85 L275,105 Q285,115 290,130" stroke="#1a3a5c" stroke-width="2.5" fill="none"/>
+        <!-- Fingers spread -->
+        <line x1="220" y1="118" x2="213" y2="105" stroke="#1a3a5c" stroke-width="2"/>
+        <line x1="228" y1="108" x2="223" y2="93" stroke="#1a3a5c" stroke-width="2"/>
+        <line x1="238" y1="95" x2="235" y2="80" stroke="#1a3a5c" stroke-width="2"/>
+        <line x1="280" y1="118" x2="287" y2="105" stroke="#1a3a5c" stroke-width="2"/>
+        <line x1="272" y1="108" x2="277" y2="93" stroke="#1a3a5c" stroke-width="2"/>
+        <line x1="262" y1="95" x2="265" y2="80" stroke="#1a3a5c" stroke-width="2"/>
+        <!-- Triangle shape hint -->
+        <path d="M225,120 L250,95 L275,120" stroke="#e8532e" stroke-width="1.5" fill="none" stroke-dasharray="4,3"/>
+        <text x="250" y="138" text-anchor="middle" fill="#e8532e" font-size="10" font-weight="600">三角形窗口</text>
+        <!-- Ball -->
+        <circle cx="250" cy="55" r="28" fill="rgba(240,192,64,0.2)" stroke="#d4a843" stroke-width="2"/>
+        <text x="250" y="59" text-anchor="middle" fill="#b8922e" font-size="10" font-weight="600">球</text>
+        <!-- Annotations -->
+        <text x="370" y="80" fill="#e8532e" font-size="11" font-weight="600">觸球位置：額前上方</text>
+        <text x="370" y="96" fill="#e8532e" font-size="10">約一個球的距離</text>
+        <line x1="295" y1="100" x2="365" y2="84" stroke="#e8532e" stroke-width="1"/>
+        <text x="370" y="140" fill="#3a7d44" font-size="11" font-weight="600">手指張開如「碗」狀</text>
+        <text x="370" y="156" fill="#3a7d44" font-size="10">拇指與食指成三角形</text>
+        <line x1="292" y1="125" x2="365" y2="138" stroke="#3a7d44" stroke-width="1"/>
+        <text x="40" y="100" fill="#1a3a5c" font-size="11" font-weight="600">手腕後仰</text>
+        <text x="40" y="116" fill="#1a3a5c" font-size="10">緩衝來球力量</text>
+        <line x1="208" y1="118" x2="130" y2="105" stroke="#1a3a5c" stroke-width="1"/>
+      </svg>
+      <div class="diagram-caption">高手傳球手型 — 雙手拇指與食指形成三角形窗口，在額前上方觸球</div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>手型準備</h4>
+        <p>十指張開，雙手呈「碗」狀，拇指與食指形成一個三角形窗口。手腕自然後仰，準備在額頭正上方一個球距離處接球。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>觸球動作</h4>
+        <p>用指腹（拇指、食指、中指為主）彈性觸球。手腕先隨球稍微後屈（緩衝），再向前彈送出球。全程手指保持張開和彈性。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>全身協調</h4>
+        <p>蹬腿→伸腰→展臂→彈指，力量從下往上依序傳遞。短距離傳球多用手腕；長距離傳球則需全身發力。</p>
+      </div>
+    </div>
+
+    <div class="key-point">
+      <strong>💡 教練提醒：</strong>初學者最常犯的錯誤是用手掌拍球，而非用指腹彈球。記住「球碰手指不碰掌心」，透過三角形窗口觀察球的進入軌跡，可提升精準度。
+    </div>
+  </div>
+</div>
+
+<!-- ===================== 發球 ===================== -->
+<div class="section" id="sec-serve">
+  <div class="section-header">
+    <h2>發球技術</h2>
+    <div class="divider"></div>
+    <p>比賽的第一攻擊，穩定的發球是勝負關鍵</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon orange">🔰</span>低手發球（初學入門）</h3>
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg">
+        <!-- Phase 1 -->
+        <g transform="translate(80,0)">
+          <circle cx="0" cy="60" r="15" fill="none" stroke="#1a3a5c" stroke-width="2"/>
+          <line x1="0" y1="75" x2="0" y2="140" stroke="#1a3a5c" stroke-width="2"/>
+          <line x1="0" y1="100" x2="-25" y2="130" stroke="#1a3a5c" stroke-width="2"/>
+          <line x1="0" y1="100" x2="25" y2="130" stroke="#1a3a5c" stroke-width="2"/>
+          <circle cx="25" cy="125" r="10" fill="rgba(240,192,64,0.3)" stroke="#d4a843" stroke-width="1.5"/>
+          <line x1="0" y1="140" x2="-15" y2="200" stroke="#1a3a5c" stroke-width="2"/>
+          <line x1="0" y1="140" x2="15" y2="200" stroke="#1a3a5c" stroke-width="2"/>
+          <text x="0" y="230" text-anchor="middle" fill="#1a3a5c" font-size="10" font-weight="500">①持球</text>
+          <text x="0" y="244" text-anchor="middle" fill="#6b6b6b" font-size="9">非慣用手持球</text>
+        </g>
+        <!-- Phase 2 -->
+        <g transform="translate(230,0)">
+          <circle cx="0" cy="60" r="15" fill="none" stroke="#1a3a5c" stroke-width="2"/>
+          <line x1="0" y1="75" x2="0" y2="140" stroke="#1a3a5c" stroke-width="2"/>
+          <line x1="0" y1="100" x2="25" y2="120" stroke="#1a3a5c" stroke-width="2"/>
+          <line x1="0" y1="100" x2="-30" y2="155" stroke="#e8532e" stroke-width="2.5"/>
+          <path d="M-30,155 Q-35,165 -25,170" stroke="#e8532e" stroke-width="1" fill="none" stroke-dasharray="3,2"/>
+          <circle cx="20" cy="115" r="10" fill="rgba(240,192,64,0.3)" stroke="#d4a843" stroke-width="1.5"/>
+          <line x1="0" y1="140" x2="-15" y2="200" stroke="#1a3a5c" stroke-width="2"/>
+          <line x1="0" y1="140" x2="15" y2="200" stroke="#1a3a5c" stroke-width="2"/>
+          <text x="0" y="230" text-anchor="middle" fill="#1a3a5c" font-size="10" font-weight="500">②後擺</text>
+          <text x="0" y="244" text-anchor="middle" fill="#6b6b6b" font-size="9">擊球手向後擺</text>
+        </g>
+        <!-- Phase 3 -->
+        <g transform="translate(380,0)">
+          <circle cx="0" cy="55" r="15" fill="none" stroke="#1a3a5c" stroke-width="2"/>
+          <line x1="0" y1="70" x2="3" y2="135" stroke="#1a3a5c" stroke-width="2"/>
+          <line x1="3" y1="100" x2="35" y2="110" stroke="#e8532e" stroke-width="2.5"/>
+          <circle cx="42" cy="105" r="10" fill="rgba(240,192,64,0.5)" stroke="#d4a843" stroke-width="2"/>
+          <path d="M52,100 Q70,85 80,60" stroke="#d4a843" stroke-width="1.5" fill="none" stroke-dasharray="5,3"/>
+          <line x1="3" y1="135" x2="-12" y2="200" stroke="#1a3a5c" stroke-width="2"/>
+          <line x1="3" y1="135" x2="18" y2="200" stroke="#1a3a5c" stroke-width="2"/>
+          <text x="5" y="230" text-anchor="middle" fill="#1a3a5c" font-size="10" font-weight="500">③擊球</text>
+          <text x="5" y="244" text-anchor="middle" fill="#6b6b6b" font-size="9">掌根擊球中下部</text>
+        </g>
+        <!-- Arrow -->
+        <path d="M130,140 L180,140" stroke="#aaa" stroke-width="1.5" marker-end="url(#arrowGray)"/>
+        <path d="M280,140 L330,140" stroke="#aaa" stroke-width="1.5" marker-end="url(#arrowGray)"/>
+        <defs>
+          <marker id="arrowGray" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+            <path d="M0,0 L8,3 L0,6" fill="#aaa"/>
+          </marker>
+        </defs>
+      </svg>
+      <div class="diagram-caption">低手發球三階段：持球 → 後擺 → 向前擺臂擊球</div>
+    </div>
+
+    <div class="key-point">
+      <strong>💡 重點：</strong>擊球手以掌根或握拳擊球中下部。手臂像鐘擺一樣直臂揮動，不要彎肘。拋球高度越低越穩定，甚至可以不拋球直接從手上擊出。
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon blue">🌊</span>肩上發球（飄球）</h3>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>站姿</h4>
+        <p>面對球網，非慣用腳在前（右手擊球者左腳在前），身體側向約 45°，非慣用手持球於體前。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>拋球</h4>
+        <p>非慣用手將球垂直向上輕拋至擊球手肩前上方約 50cm 處。拋球要穩定，不要旋轉、不要太高。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>揮臂擊球</h4>
+        <p>擊球手肘拉高至耳朵旁，快速向前揮臂。用掌根堅硬部位擊球中後部，擊球瞬間手腕固定不甩。這樣球不旋轉，會產生飄浮效果。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h4>跟隨動作</h4>
+        <p>擊球後手臂自然向前跟隨，重心從後腳轉移到前腳，身體順勢進入場內準備防守。</p>
+      </div>
+    </div>
+
+    <div class="key-point">
+      <strong>💡 飄球秘訣：</strong>擊球後手腕「急停」不做壓腕動作，讓球不帶旋轉。無旋轉的球在飛行中會受氣流影響產生不規則漂移，極難接。
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon green">🚀</span>跳躍發球（進階）</h3>
+    <p>跳躍發球結合了扣球的助跑與發球，是最具攻擊力的發球方式：</p>
+    <ul>
+      <li>在底線後方 2-3m 處開始，雙手將球高拋至前上方（比飄球拋球高許多）</li>
+      <li>採用扣球式的三步或四步助跑：小步→大步→併步起跳</li>
+      <li>在最高點以全力揮臂擊球，加上壓腕產生強力上旋</li>
+      <li>落地時注意不可踩到底線（否則違規）</li>
+    </ul>
+    <div class="key-point">
+      <strong>💡 教練建議：</strong>跳躍發球雖威力大，但失誤率也高。初學者應先精通低手發球和飄球（成功率 90% 以上），再嘗試跳躍發球。
+    </div>
+  </div>
+</div>
+
+<!-- ===================== 扣球攻擊 ===================== -->
+<div class="section" id="sec-spike">
+  <div class="section-header">
+    <h2>扣球攻擊</h2>
+    <div class="divider"></div>
+    <p>排球最激動人心的技術，進攻得分的主要武器</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon orange">⚡</span>扣球助跑與起跳</h3>
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg">
+        <!-- Ground -->
+        <line x1="30" y1="260" x2="670" y2="260" stroke="#ccc" stroke-width="1"/>
+        <!-- Net -->
+        <rect x="600" y="80" width="6" height="180" fill="rgba(26,58,92,0.3)"/>
+        <text x="620" y="170" fill="#1a3a5c" font-size="10">網</text>
+        <!-- Step 1 - Starting position -->
+        <g transform="translate(80,0)">
+          <circle cx="0" cy="155" r="14" fill="none" stroke="#1a3a5c" stroke-width="2"/>
+          <line x1="0" y1="169" x2="0" y2="220" stroke="#1a3a5c" stroke-width="2"/>
+          <line x1="0" y1="220" x2="-12" y2="258" stroke="#1a3a5c" stroke-width="2"/>
+          <line x1="0" y1="220" x2="12" y2="258" stroke="#1a3a5c" stroke-width="2"/>
+          <text x="0" y="280" text-anchor="middle" fill="#1a3a5c" font-size="10" font-weight="600">①預備</text>
+        </g>
+        <!-- Step 2 - First step -->
+        <g transform="translate(200,0)">
+          <circle cx="0" cy="148" r="14" fill="none" stroke="#1a3a5c" stroke-width="2"/>
+          <line x1="0" y1="162" x2="3" y2="215" stroke="#1a3a5c" stroke-width="2"/>
+          <line x1="3" y1="215" x2="-10" y2="258" stroke="#1a3a5c" stroke-width="2"/>
+          <line x1="3" y1="215" x2="20" y2="258" stroke="#1a3a5c" stroke-width="2"/>
+          <text x="5" y="280" text-anchor="middle" fill="#1a3a5c" font-size="10" font-weight="600">②小步</text>
+        </g>
+        <!-- Step 3 - Big step -->
+        <g transform="translate(330,0)">
+          <circle cx="0" cy="140" r="14" fill="none" stroke="#1a3a5c" stroke-width="2"/>
+          <line x1="0" y1="154" x2="5" y2="205" stroke="#1a3a5c" stroke-width="2"/>
+          <line x1="5" y1="205" x2="-20" y2="258" stroke="#1a3a5c" stroke-width="2"/>
+          <line x1="5" y1="205" x2="35" y2="258" stroke="#1a3a5c" stroke-width="2"/>
+          <line x1="5" y1="180" x2="-25" y2="195" stroke="#1a3a5c" stroke-width="2"/>
+          <line x1="5" y1="180" x2="30" y2="160" stroke="#1a3a5c" stroke-width="2"/>
+          <text x="5" y="280" text-anchor="middle" fill="#e8532e" font-size="10" font-weight="600">③大步跨</text>
+        </g>
+        <!-- Step 4 - Jump -->
+        <g transform="translate(480,0)">
+          <circle cx="0" cy="60" r="14" fill="none" stroke="#e8532e" stroke-width="2.5"/>
+          <line x1="0" y1="74" x2="0" y2="130" stroke="#e8532e" stroke-width="2.5"/>
+          <line x1="0" y1="100" x2="-30" y2="80" stroke="#e8532e" stroke-width="2.5"/>
+          <line x1="0" y1="100" x2="30" y2="60" stroke="#e8532e" stroke-width="2.5"/>
+          <line x1="0" y1="130" x2="-12" y2="170" stroke="#e8532e" stroke-width="2.5"/>
+          <line x1="0" y1="130" x2="12" y2="170" stroke="#e8532e" stroke-width="2.5"/>
+          <!-- Ball -->
+          <circle cx="38" cy="42" r="14" fill="rgba(240,192,64,0.4)" stroke="#d4a843" stroke-width="2"/>
+          <!-- Hit arrow -->
+          <path d="M50,35 Q65,50 70,75" stroke="#d4a843" stroke-width="2" fill="none" stroke-dasharray="4,3"/>
+          <text x="0" y="280" text-anchor="middle" fill="#e8532e" font-size="10" font-weight="600">④起跳擊球</text>
+        </g>
+        <!-- Direction arrows -->
+        <path d="M115,230 L160,230" stroke="#aaa" stroke-width="1" marker-end="url(#arrowGray)"/>
+        <path d="M240,230 L290,230" stroke="#aaa" stroke-width="1" marker-end="url(#arrowGray)"/>
+        <path d="M375,230 L430,230" stroke="#aaa" stroke-width="1" marker-end="url(#arrowGray)"/>
+      </svg>
+      <div class="diagram-caption">扣球四步驟：預備觀察 → 小步啟動 → 大步跨出（雙腳併步煞車）→ 起跳揮臂擊球</div>
+    </div>
+
+    <h4 style="color:var(--primary);margin:1rem 0 0.5rem;">助跑節奏（右手扣球者）：</h4>
+    <ol>
+      <li><strong>第一步（左腳）：</strong>小步慢速啟動，判斷二傳球的方向和高度</li>
+      <li><strong>第二步（右腳）：</strong>大步快速跨出，壓低重心，雙臂向後擺</li>
+      <li><strong>第三步（左腳併右腳）：</strong>左腳快速跟上與右腳併攏（或稍前），雙腳同時蹬地轉化水平速度為垂直跳躍</li>
+      <li><strong>起跳：</strong>雙臂用力上擺帶動身體，在最高點以弓身轉體揮臂擊球</li>
+    </ol>
+
+    <div class="key-point">
+      <strong>💡 扣球揮臂重點：</strong>擊球手肘先拉高超過肩膀（像弓箭拉滿），前臂快速甩出，在最高點用全手掌包覆球的上後部，手腕主動向下壓（snap），使球產生強力下旋。擊球點要在身體前方，不是正上方。
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon gold">🎯</span>攻擊路線與技巧</h3>
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 500 350" xmlns="http://www.w3.org/2000/svg">
+        <!-- Half court top view -->
+        <rect x="50" y="30" width="400" height="300" fill="#2d6b3a" rx="3"/>
+        <rect x="50" y="30" width="400" height="300" fill="none" stroke="#fff" stroke-width="2"/>
+        <!-- Net -->
+        <line x1="50" y1="30" x2="450" y2="30" stroke="#fff" stroke-width="4"/>
+        <text x="250" y="22" text-anchor="middle" fill="#e8532e" font-size="10" font-weight="600">球 網</text>
+        <!-- Attack line -->
+        <line x1="50" y1="130" x2="450" y2="130" stroke="rgba(255,255,255,0.4)" stroke-width="1" stroke-dasharray="6,4"/>
+        <text x="460" y="134" fill="rgba(255,255,255,0.5)" font-size="9">攻擊線</text>
+        <!-- Attacker position (4號位) -->
+        <circle cx="120" cy="180" r="18" fill="rgba(232,83,46,0.8)" stroke="#fff" stroke-width="2"/>
+        <text x="120" y="184" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">4</text>
+        <!-- Attack lines -->
+        <path d="M135,170 L350,50" stroke="#f0c040" stroke-width="2.5" marker-end="url(#arrowYellow)"/>
+        <text x="260" y="95" fill="#f0c040" font-size="10" font-weight="600" transform="rotate(-25,260,95)">斜線攻擊</text>
+        <path d="M130,165 L120,45" stroke="#fff" stroke-width="2.5" marker-end="url(#arrowW)"/>
+        <text x="100" y="100" fill="#fff" font-size="10" font-weight="600">直線</text>
+        <path d="M138,175 L250,45" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowW2)"/>
+        <text x="195" y="95" fill="rgba(255,255,255,0.7)" font-size="9">小斜線</text>
+        <!-- Setter -->
+        <circle cx="280" cy="80" r="14" fill="rgba(100,180,255,0.7)" stroke="#fff" stroke-width="1.5"/>
+        <text x="280" y="84" text-anchor="middle" fill="#fff" font-size="9" font-weight="600">S</text>
+        <text x="280" y="60" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="9">二傳</text>
+        <!-- Blockers on other side implied -->
+        <rect x="80" y="35" width="30" height="10" rx="3" fill="rgba(255,100,100,0.5)"/>
+        <rect x="140" y="35" width="30" height="10" rx="3" fill="rgba(255,100,100,0.5)"/>
+        <text x="140" y="28" text-anchor="middle" fill="rgba(255,150,150,0.8)" font-size="8">攔網</text>
+        <defs>
+          <marker id="arrowYellow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#f0c040"/></marker>
+          <marker id="arrowW" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#fff"/></marker>
+          <marker id="arrowW2" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="rgba(255,255,255,0.6)"/></marker>
+        </defs>
+      </svg>
+      <div class="diagram-caption">4號位攻擊路線示意圖（俯視）— 直線、小斜線、大斜線</div>
+    </div>
+
+    <ul>
+      <li><strong>直線攻擊：</strong>沿邊線方向扣球，避開攔網。需要手腕控制方向</li>
+      <li><strong>斜線攻擊：</strong>向對角方向扣球，攻擊範圍最大，是最常用的攻擊路線</li>
+      <li><strong>吊球（Tip/Dink）：</strong>假裝扣球但輕巧推送至對方攔網手後方空當，出其不意</li>
+      <li><strong>打手出界：</strong>故意擦到攔網者手指外緣使球飛出界外得分</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===================== 攔網 ===================== -->
+<div class="section" id="sec-block">
+  <div class="section-header">
+    <h2>攔網技術</h2>
+    <div class="divider"></div>
+    <p>第一道防線，有效攔網可大幅削弱對手攻擊力</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon blue">🛡️</span>攔網姿勢與動作</h3>
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 500 320" xmlns="http://www.w3.org/2000/svg">
+        <!-- Net -->
+        <rect x="240" y="40" width="8" height="250" fill="rgba(200,200,200,0.3)" stroke="#999" stroke-width="1"/>
+        <text x="244" y="305" text-anchor="middle" fill="#999" font-size="10">球網</text>
+        <!-- Blocker -->
+        <circle cx="200" cy="70" r="16" fill="none" stroke="#1a3a5c" stroke-width="2.5"/>
+        <line x1="200" y1="86" x2="200" y2="160" stroke="#1a3a5c" stroke-width="2.5"/>
+        <!-- Arms over net -->
+        <line x1="200" y1="100" x2="220" y2="60" stroke="#e8532e" stroke-width="3"/>
+        <line x1="220" y1="60" x2="230" y2="40" stroke="#e8532e" stroke-width="3"/>
+        <line x1="200" y1="100" x2="260" y2="60" stroke="#e8532e" stroke-width="3"/>
+        <line x1="260" y1="60" x2="268" y2="40" stroke="#e8532e" stroke-width="3"/>
+        <!-- Hands -->
+        <rect x="222" y="30" width="14" height="14" rx="3" fill="rgba(232,83,46,0.2)" stroke="#e8532e" stroke-width="1.5"/>
+        <rect x="260" y="30" width="14" height="14" rx="3" fill="rgba(232,83,46,0.2)" stroke="#e8532e" stroke-width="1.5"/>
+        <!-- Legs -->
+        <line x1="200" y1="160" x2="185" y2="230" stroke="#1a3a5c" stroke-width="2.5"/>
+        <line x1="200" y1="160" x2="215" y2="230" stroke="#1a3a5c" stroke-width="2.5"/>
+        <!-- Ball on other side -->
+        <circle cx="310" cy="60" r="16" fill="rgba(240,192,64,0.3)" stroke="#d4a843" stroke-width="2"/>
+        <path d="M300,50 L275,38" stroke="#d4a843" stroke-width="1.5" marker-end="url(#arrowGold)"/>
+        <!-- Annotations -->
+        <text x="50" y="45" fill="#e8532e" font-size="11" font-weight="600">手伸過網</text>
+        <text x="50" y="61" fill="#e8532e" font-size="10">手指張開，手掌朝球場</text>
+        <line x1="140" y1="50" x2="218" y2="40" stroke="#e8532e" stroke-width="1"/>
+        <text x="50" y="110" fill="#3a7d44" font-size="11" font-weight="600">手腕主動前壓</text>
+        <text x="50" y="126" fill="#3a7d44" font-size="10">將球下壓至對方場地</text>
+        <line x1="140" y1="115" x2="195" y2="95" stroke="#3a7d44" stroke-width="1"/>
+        <text x="350" y="95" fill="#1a3a5c" font-size="11" font-weight="600">攻擊者</text>
+        <text x="350" y="111" fill="#1a3a5c" font-size="10">判斷其扣球方向</text>
+      </svg>
+      <div class="diagram-caption">攔網姿勢 — 雙手越過球網，手指張開，手腕前壓形成「蓋帽」</div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>預備位置</h4>
+        <p>面對球網站立，距離球網約一個手臂長（50cm），雙手舉至肩膀高度，膝蓋微彎，隨時準備起跳。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>移位與判斷</h4>
+        <p>觀察對方二傳球的方向判斷攻擊位置，用滑步或交叉步快速移到對手扣球者正前方。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>起跳時機</h4>
+        <p>比對方扣球者稍晚起跳（約慢 0.2 秒），確保在對方擊球瞬間你的手在最高點。攔快攻要同時跳，攔高球可以晚跳。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h4>手型</h4>
+        <p>手指張開且用力繃緊，雙手盡量伸過球網對方場地側，手腕主動向前壓（像「蓋帽子」），縮小對方扣球角度。兩手間不留縫隙。</p>
+      </div>
+    </div>
+
+    <div class="key-point">
+      <strong>💡 教練提醒：</strong>攔網時眼睛盯住對方扣球者的揮臂方向（而非球），這樣才能判斷攻擊路線。雙手攔網時兩手拇指間距約一個球寬（約20cm），不可留太大縫隙讓球穿過。
+    </div>
+  </div>
+</div>
+
+<!-- ===================== 防守接球 ===================== -->
+<div class="section" id="sec-defense">
+  <div class="section-header">
+    <h2>防守與救球技術</h2>
+    <div class="divider"></div>
+    <p>好的防守讓你的球隊永遠有機會反擊</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon green">🧎</span>防守姿勢與技術</h3>
+    <p>防守姿勢比一般準備姿勢更低。重心降到最低，雙腳比肩更寬，膝蓋深彎，雙手放在膝蓋前方隨時準備接球。</p>
+
+    <h4 style="color:var(--primary);margin:1.5rem 0 0.5rem;">防守接球的類型：</h4>
+
+    <div class="tech-grid">
+      <div style="background:#f8f6f2;border-radius:12px;padding:1.5rem;">
+        <h4 style="color:var(--accent);margin-bottom:0.5rem;">低手防守</h4>
+        <p style="font-size:0.9rem;">對方扣球力量大時，雙手併攏、手臂伸直，利用手臂平面「擋」住球即可。不需要主動送球，靠球本身的反彈力將球墊起。重點是降低重心，讓手臂角度將球墊高。</p>
+      </div>
+      <div style="background:#f8f6f2;border-radius:12px;padding:1.5rem;">
+        <h4 style="color:var(--accent);margin-bottom:0.5rem;">魚躍救球</h4>
+        <p style="font-size:0.9rem;">球即將落地時全身向前撲出，單手或雙手在球落地前將球擊起。撲出後用雙手撐地、胸部滑行緩衝著地。需要良好的倒地技巧以避免受傷。</p>
+      </div>
+      <div style="background:#f8f6f2;border-radius:12px;padding:1.5rem;">
+        <h4 style="color:var(--accent);margin-bottom:0.5rem;">滾翻救球</h4>
+        <p style="font-size:0.9rem;">側向移動接球後順勢側滾翻倒地再起身。適合橫向遠距離的救球。側滾時肩膀先著地，順著背部弧線翻滾，迅速回到防守姿勢。</p>
+      </div>
+      <div style="background:#f8f6f2;border-radius:12px;padding:1.5rem;">
+        <h4 style="color:var(--accent);margin-bottom:0.5rem;">單手救球</h4>
+        <p style="font-size:0.9rem;">來不及雙手接球時以單手拳面擊球。常用在極限救球時。用握拳的平面或手背將球擊起，確保觸球面平整。</p>
+      </div>
+    </div>
+
+    <div class="key-point">
+      <strong>💡 防守心法：</strong>「先讀再動」— 養成觀察對方攻擊手動作的習慣（看肩膀和揮臂方向），預判落點後快速移動。防守成功率 80% 取決於預判，只有 20% 取決於反應速度。
+    </div>
+  </div>
+</div>
+
+<!-- ===================== 戰術 ===================== -->
+<div class="section" id="sec-tactics">
+  <div class="section-header">
+    <h2>基礎戰術系統</h2>
+    <div class="divider"></div>
+    <p>個人技術之上的團隊配合與攻防策略</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon gold">⚙️</span>進攻系統</h3>
+
+    <h4 style="color:var(--primary);margin:1rem 0 0.5rem;">5-1 陣型（最常用）</h4>
+    <p>1 名固定二傳 + 5 名攻擊手。二傳在前排時只有 2 人可攻擊，在後排時有 3 人可攻擊。優點是進攻節奏統一，缺點是對二傳能力要求高。</p>
+
+    <h4 style="color:var(--primary);margin:1rem 0 0.5rem;">4-2 陣型（初學推薦）</h4>
+    <p>2 名二傳 + 4 名攻擊手，兩名二傳對角站位。前排的二傳負責組織進攻。優點是永遠有前排二傳可以高手傳球，缺點是前排攻擊點少。</p>
+
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+        <rect x="30" y="20" width="440" height="260" fill="#2d6b3a" rx="3"/>
+        <rect x="30" y="20" width="440" height="260" fill="none" stroke="#fff" stroke-width="2"/>
+        <line x1="250" y1="20" x2="250" y2="280" stroke="#fff" stroke-width="2"/>
+        <line x1="140" y1="20" x2="140" y2="280" stroke="rgba(255,255,255,0.3)" stroke-width="1" stroke-dasharray="6,4"/>
+        <text x="250" y="15" text-anchor="middle" fill="#e8532e" font-size="10" font-weight="600">球 網</text>
+        <!-- 5-1 example rotation -->
+        <!-- Front row -->
+        <circle cx="90" cy="90" r="18" fill="rgba(100,180,255,0.8)" stroke="#fff" stroke-width="1.5"/>
+        <text x="90" y="94" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">OH</text>
+        <circle cx="180" cy="70" r="18" fill="rgba(255,200,80,0.8)" stroke="#fff" stroke-width="1.5"/>
+        <text x="180" y="74" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">MB</text>
+        <circle cx="220" cy="90" r="18" fill="rgba(232,83,46,0.8)" stroke="#fff" stroke-width="1.5"/>
+        <text x="220" y="94" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">S</text>
+        <!-- Back row -->
+        <circle cx="90" cy="210" r="18" fill="rgba(232,83,46,0.5)" stroke="#fff" stroke-width="1.5"/>
+        <text x="90" y="214" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">OP</text>
+        <circle cx="160" cy="220" r="18" fill="rgba(100,180,255,0.5)" stroke="#fff" stroke-width="1.5"/>
+        <text x="160" y="224" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">OH</text>
+        <circle cx="220" cy="210" r="18" fill="rgba(255,200,80,0.5)" stroke="#fff" stroke-width="1.5"/>
+        <text x="220" y="214" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">MB</text>
+        <!-- Legend -->
+        <text x="310" y="60" fill="#fff" font-size="10" font-weight="600">位置說明：</text>
+        <circle cx="315" cy="82" r="6" fill="rgba(232,83,46,0.8)"/><text x="328" y="86" fill="rgba(255,255,255,0.8)" font-size="9">S = 二傳 (Setter)</text>
+        <circle cx="315" cy="105" r="6" fill="rgba(100,180,255,0.8)"/><text x="328" y="109" fill="rgba(255,255,255,0.8)" font-size="9">OH = 主攻 (Outside Hitter)</text>
+        <circle cx="315" cy="128" r="6" fill="rgba(255,200,80,0.8)"/><text x="328" y="132" fill="rgba(255,255,255,0.8)" font-size="9">MB = 副攻 (Middle Blocker)</text>
+        <circle cx="315" cy="151" r="6" fill="rgba(232,83,46,0.5)"/><text x="328" y="155" fill="rgba(255,255,255,0.8)" font-size="9">OP = 對角 (Opposite)</text>
+        <text x="310" y="185" fill="rgba(255,255,255,0.5)" font-size="9">前排 = 靠近球網（較亮）</text>
+        <text x="310" y="200" fill="rgba(255,255,255,0.5)" font-size="9">後排 = 遠離球網（較暗）</text>
+      </svg>
+      <div class="diagram-caption">5-1 陣型站位示意（一個輪次範例）</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon blue">🔄</span>攻擊戰術組合</h3>
+    <table class="info-table">
+      <thead>
+        <tr><th>戰術名稱</th><th>說明</th><th>難度</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>高球攻擊（High Set）</td><td>二傳將球高傳至4號位或2號位邊線，攻擊手有充裕時間助跑</td><td>★☆☆</td></tr>
+        <tr><td>短平快（Quick）</td><td>二傳在3號位快速低傳，副攻在球到達前已起跳，速度極快</td><td>★★★</td></tr>
+        <tr><td>背飛（Slide / Pipe）</td><td>副攻沿網移動跑至二傳身後起跳攻擊，拉開攔網注意力</td><td>★★★</td></tr>
+        <tr><td>交叉掩護（X Play）</td><td>副攻打快攻吸引攔網，主攻從其身後切入攻擊空檔</td><td>★★★★</td></tr>
+        <tr><td>後排攻擊（Back Row）</td><td>後排球員在攻擊線後方起跳攻擊，增加進攻點</td><td>★★★★</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ===================== 教學課程 ===================== -->
+<div class="section" id="sec-curriculum">
+  <div class="section-header">
+    <h2>循序漸進教學課程</h2>
+    <div class="divider"></div>
+    <p>從零基礎到比賽實戰的完整學習路徑</p>
+  </div>
+
+  <div class="curriculum-phase">
+    <div class="phase-marker">1</div>
+    <div class="phase-header">第一階段：認識排球與基礎</div>
+    <div class="phase-duration">📅 第 1-3 週（每週 2-3 次，每次 90 分鐘）</div>
+    <div class="phase-content">
+      <p><strong>教學目標：</strong>建立正確觀念、培養球感、學會準備姿勢與移動</p>
+      <ul>
+        <li>排球規則講解與場地認識（第1堂課）</li>
+        <li>準備姿勢訓練：低姿態、重心前傾、前腳掌站立</li>
+        <li>移動步法練習：滑步、交叉步、衝刺步</li>
+        <li>球感培養：自拋自接、對牆墊球、兩人互拋</li>
+        <li>低手傳接球入門：手型、觸球部位、固定位置接球</li>
+      </ul>
+      <div class="key-point">
+        <strong>每堂課建議結構：</strong>15分鐘熱身 → 20分鐘基本功 → 40分鐘新技術學習 → 15分鐘遊戲/趣味競賽
+      </div>
+    </div>
+  </div>
+
+  <div class="curriculum-phase">
+    <div class="phase-marker">2</div>
+    <div class="phase-header">第二階段：傳接球精進</div>
+    <div class="phase-duration">📅 第 4-8 週</div>
+    <div class="phase-content">
+      <p><strong>教學目標：</strong>熟練低手與高手傳接球，能進行穩定的連續對打</p>
+      <ul>
+        <li>低手傳接球進階：移動中接球、不同角度接球、控制方向</li>
+        <li>高手傳球入門：手型訓練、自傳練習、對牆練習</li>
+        <li>高手傳球進階：兩人對傳、移動中傳球、前後左右傳球</li>
+        <li>三人三角傳球練習（一傳→二傳→目標區）</li>
+        <li>低手發球學習與練習</li>
+      </ul>
+      <div class="key-point">
+        <strong>練習量建議：</strong>每堂課至少 200 次觸球（低手+高手各100次）。連續對傳目標：兩人能連續10球以上不落地。
+      </div>
+    </div>
+  </div>
+
+  <div class="curriculum-phase">
+    <div class="phase-marker">3</div>
+    <div class="phase-header">第三階段：發球與攻擊入門</div>
+    <div class="phase-duration">📅 第 9-14 週</div>
+    <div class="phase-content">
+      <p><strong>教學目標：</strong>掌握基本發球技術、學習扣球基本動作</p>
+      <ul>
+        <li>低手發球精進：穩定過網率達 80%+</li>
+        <li>肩上發球入門：拋球練習、揮臂擊球練習、完整動作</li>
+        <li>扣球分解練習：原地揮臂（打牆、打地）→ 站立扣球 → 一步起跳扣球</li>
+        <li>完整助跑扣球：三步助跑節奏 → 配合拋球扣球 → 配合二傳扣球</li>
+        <li>簡化比賽：4對4、不要求攻擊，著重一傳-二傳-過網的三觸球配合</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="curriculum-phase">
+    <div class="phase-marker">4</div>
+    <div class="phase-header">第四階段：攔網防守與攻防整合</div>
+    <div class="phase-duration">📅 第 15-22 週</div>
+    <div class="phase-content">
+      <p><strong>教學目標：</strong>學會攔網、防守配合，開始完整6對6比賽</p>
+      <ul>
+        <li>攔網基礎：預備姿勢、起跳時機、手型（單人攔網）</li>
+        <li>雙人攔網配合：移位、併攏、同步起跳</li>
+        <li>防守站位學習：攔網後的防守佈陣</li>
+        <li>防守技術：低姿態接扣球、魚躍救球入門</li>
+        <li>攻防串聯練習：發球→接發球→二傳→攻擊 完整流程</li>
+        <li>6對6 正式比賽實踐，帶入輪轉規則</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="curriculum-phase">
+    <div class="phase-marker">5</div>
+    <div class="phase-header">第五階段：戰術與進階技術</div>
+    <div class="phase-duration">📅 第 23-36 週</div>
+    <div class="phase-content">
+      <p><strong>教學目標：</strong>提升比賽能力，理解戰術體系</p>
+      <ul>
+        <li>飄球發球精進、跳躍發球入門</li>
+        <li>快攻與戰術球練習（短平快、背飛）</li>
+        <li>進攻路線選擇訓練（直線/斜線/吊球）</li>
+        <li>接發球陣型與輪轉站位</li>
+        <li>比賽錄影分析與戰術討論</li>
+        <li>心理素質訓練：關鍵分處理、團隊溝通</li>
+      </ul>
+      <div class="key-point">
+        <strong>進階目標：</strong>發球成功率 85%+、一傳到位率 60%+、扣球成功率 40%+。能在比賽中靈活運用至少兩種攻擊路線。
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== 體能訓練 ===================== -->
+<div class="section" id="sec-training">
+  <div class="section-header">
+    <h2>排球專項體能訓練</h2>
+    <div class="divider"></div>
+    <p>強壯的身體是技術發揮的基礎，也能有效預防傷害</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon orange">🦵</span>下肢爆發力（跳躍力）</h3>
+    <table class="info-table">
+      <thead>
+        <tr><th>訓練動作</th><th>說明</th><th>組數 × 次數</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>深蹲（Squat）</td><td>基礎力量，臀部低於膝蓋水平。初學用自體重量</td><td>4 × 10-12</td></tr>
+        <tr><td>箱跳（Box Jump）</td><td>跳上約 50-60cm 高的平台，訓練垂直爆發力</td><td>4 × 8</td></tr>
+        <tr><td>弓箭步跳（Lunge Jump）</td><td>弓箭步位置交替跳躍，訓練單腳爆發力</td><td>3 × 10 (每腳)</td></tr>
+        <tr><td>小腿提踵（Calf Raise）</td><td>腳尖站在階梯邊緣，反覆提踵，強化小腿</td><td>3 × 15-20</td></tr>
+        <tr><td>連續摸高跳</td><td>原地連續跳起摸高處標記，練習快速反覆起跳</td><td>4 × 8</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon blue">💪</span>核心與上肢力量</h3>
+    <table class="info-table">
+      <thead>
+        <tr><th>訓練動作</th><th>說明</th><th>組數 × 次數</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>平板支撐（Plank）</td><td>核心穩定性基礎，保持身體一直線</td><td>3 × 45-60秒</td></tr>
+        <tr><td>俄羅斯轉體</td><td>坐姿V型持球左右轉體，訓練旋轉核心力量</td><td>3 × 20</td></tr>
+        <tr><td>伏地挺身</td><td>上肢推力基礎，對扣球與傳球都重要</td><td>3 × 12-15</td></tr>
+        <tr><td>彈力帶肩部旋轉</td><td>強化肩袖肌群，預防肩膀傷害（內旋/外旋）</td><td>3 × 15 (每方向)</td></tr>
+        <tr><td>藥球旋轉拋擲</td><td>模擬扣球動作的旋轉爆發力訓練</td><td>3 × 10 (每側)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon green">🏃</span>敏捷與反應訓練</h3>
+    <table class="info-table">
+      <thead>
+        <tr><th>訓練動作</th><th>說明</th><th>組數 × 時間</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>T字跑</td><td>前衝→滑步到右→滑步到左→倒退跑回起點</td><td>5 次</td></tr>
+        <tr><td>繩梯步法</td><td>各種繩梯步法（快步、橫移、交叉步等）</td><td>各 3-4 次</td></tr>
+        <tr><td>反應球接球</td><td>教練隨機拋球至不同方向，球員快速移動接球</td><td>3 × 1分鐘</td></tr>
+        <tr><td>四角移動</td><td>場地四角快速移動並觸地，強化方向變換能力</td><td>4 × 30秒</td></tr>
+      </tbody>
+    </table>
+
+    <div class="key-point">
+      <strong>💡 訓練原則：</strong>每週安排 2-3 次體能訓練，與技術訓練穿插進行。訓練前充分熱身 15 分鐘，訓練後做 10 分鐘的拉伸與放鬆。隨著能力進步逐漸增加強度。特別注意膝蓋與肩膀的保護，若有疼痛應立即停止並諮詢物理治療師。
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon gold">🩹</span>傷害預防要點</h3>
+    <ul>
+      <li><strong>膝蓋：</strong>排球涉及大量跳躍，務必強化大腿肌群，穿著護膝，並學習正確的起跳落地姿勢（膝蓋對齊腳尖，避免內扣）</li>
+      <li><strong>肩膀：</strong>扣球和發球對肩膀負荷大，每次訓練前做肩部旋轉活動操，強化肩袖四肌群</li>
+      <li><strong>腳踝：</strong>攔網落地時最易扭傷腳踝，可穿戴護踝。落地時保持雙腳同時著地，避免踩到隊友或對手的腳</li>
+      <li><strong>手指：</strong>高手傳球和攔網容易造成手指挫傷。傳球前確保手指充分活動，攔網時手指張開且用力繃緊</li>
+      <li><strong>訓練量控管：</strong>初學者不要一開始就高強度訓練，循序漸進增加練習量，讓肌肉和關節有適應的時間</li>
+    </ul>
+  </div>
+</div>
+
+</main>
+
+<footer class="footer">
+  <p>🏐 排球專業教學指南 — 從基礎到實戰的完整學習體系</p>
+  <p style="margin-top:0.3rem;">持續練習、享受排球帶來的樂趣與團隊精神！</p>
+</footer>
+
+<script>
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  
+  const section = document.getElementById('sec-' + id);
+  if (section) {
+    section.classList.add('active');
+    section.style.animation = 'none';
+    section.offsetHeight;
+    section.style.animation = '';
+  }
+  
+  const btns = document.querySelectorAll('.nav-btn');
+  const ids = ['overview','basics','underhand','overhand','serve','spike','block','defense','tactics','curriculum','training'];
+  const idx = ids.indexOf(id);
+  if (idx >= 0 && btns[idx]) btns[idx].classList.add('active');
+  
+  window.scrollTo({ top: document.querySelector('.nav').offsetTop, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
